@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape The Mathrix | Calculator</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            border: 2px solid #00FF00;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00FF00;
+        }
+        .display {
+            background-color: black;
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+            color: #00FF00;
+            padding: 10px;
+            width: 95%;
+            text-align: right;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .buttons button {
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .buttons button:hover {
+            background-color: #00FF00;
+            color: black;
+        }
+        .buttons .span-2 {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="display" id="display" disabled>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="deleteChar()">&larr;</button>
+            <button onclick="appendCharacter('(')">(</button>
+            <button onclick="appendCharacter(')')">)</button>
+            <button onclick="appendCharacter('^')">^</button>
+            <button onclick="appendCharacter('7')">7</button>
+            <button onclick="appendCharacter('8')">8</button>
+            <button onclick="appendCharacter('9')">9</button>
+            <button onclick="appendCharacter('/')">/</button>
+            <button onclick="appendCharacter('sqrt(')">√</button>
+            <button onclick="appendCharacter('4')">4</button>
+            <button onclick="appendCharacter('5')">5</button>
+            <button onclick="appendCharacter('6')">6</button>
+            <button onclick="appendCharacter('*')">*</button>
+            <button onclick="appendCharacter('log(')">log</button>
+            <button onclick="appendCharacter('1')">1</button>
+            <button onclick="appendCharacter('2')">2</button>
+            <button onclick="appendCharacter('3')">3</button>
+            <button onclick="appendCharacter('-')">-</button>
+            <button onclick="appendCharacter('ln(')">ln</button>
+            <button onclick="appendCharacter('0')">0</button>
+            <button onclick="appendCharacter('.')">.</button>
+            <button onclick="appendCharacter('pi')">π</button>
+            <button onclick="appendCharacter('+')">+</button>
+            <button onclick="appendCharacter('sin(')">sin</button>
+            <button onclick="appendCharacter('cos(')">cos</button>
+            <button onclick="appendCharacter('tan(')">tan</button>
+            <button onclick="calculateResult()" class="span-2">=</button>
+        </div>
+    </div>
+    <script>
+        function appendCharacter(character) {
+            const display = document.getElementById('display');
+            display.value += character;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function deleteChar() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                const result = eval(display.value
+                    .replace('sqrt', 'Math.sqrt')
+                    .replace('log', 'Math.log10')
+                    .replace('ln', 'Math.log')
+                    .replace('sin', 'Math.sin')
+                    .replace('cos', 'Math.cos')
+                    .replace('tan', 'Math.tan')
+                    .replace('pi', 'Math.PI')
+                    .replace('^', '**'));
+                display.value = result;
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
